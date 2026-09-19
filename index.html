@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#080d19">
+<title>DEXGUARD V11</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#070c17;color:#f8fafc;font-family:Arial,sans-serif}
+.wrap{max-width:1000px;margin:auto;padding:18px 15px 55px}
+header{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+h1{font-size:clamp(34px,8vw,62px);margin:8px 0}h1 span{color:#a78bfa}h1 small{font-size:.42em;color:#94a3b8}
+h2{margin-top:0}.muted{color:#94a3b8;line-height:1.6}.card{background:#111b2d;border:1px solid #334155;border-radius:19px;padding:18px;margin:14px 0;box-shadow:0 8px 28px #0003}
+input{width:100%;padding:15px;border-radius:12px;border:1px solid #64748b;background:#080f1e;color:#fff;font-size:15px;margin:9px 0}
+button{padding:14px 20px;border:0;border-radius:12px;background:#8b5cf6;color:#fff;font-size:15px;font-weight:bold;margin:3px}.secondary{background:#29384f}
+.actions{display:flex;gap:8px;flex-wrap:wrap}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.metric{font-size:clamp(21px,5vw,31px);font-weight:bold;margin-top:8px;overflow-wrap:anywhere}.label{font-size:13px;color:#94a3b8}
+.row{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid #334155;font-size:14px}.row:last-child{border-bottom:0}.row b{text-align:right;overflow-wrap:anywhere}
+.badge{display:inline-block;padding:6px 10px;border-radius:999px;background:#263449;color:#cbd5e1;font-size:12px;font-weight:bold}
+.good{color:#86efac}.warn{color:#fcd34d}.bad{color:#fca5a5}.hidden{display:none}
+.tokenhead{display:flex;align-items:center;gap:14px}.tokenhead img{width:66px;height:66px;border-radius:50%;object-fit:cover;background:#263449}
+.notice{border-left:4px solid #f59e0b}.bar{height:10px;background:#263449;border-radius:20px;overflow:hidden;margin-top:10px}.bar i{display:block;height:100%;width:0;background:#8b5cf6}
+a{color:#c4b5fd}.small{font-size:12px}.pillrow{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}
+
+.chart-toolbar{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin:10px 0}
+.timeframes{display:flex;gap:5px;flex-wrap:wrap}
+.timeframes button{padding:9px 12px;font-size:12px;background:#29384f}
+.timeframes button.active{background:#8b5cf6}
+.chart-wrap{position:relative;width:100%;height:280px;background:#080f1e;border:1px solid #263449;border-radius:14px;overflow:hidden}
+#priceChart{display:block;width:100%;height:100%}
+.chart-meta{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:9px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><h1>DEX<span>GUARD</span> <small>V11</small></h1><span class="badge">Professional dashboard</span></header>
+<p class="muted">Market research dashboard for Solana tokens. Static Netlify version with charts, clearer indicators and safer explanations.</p>
+
+<div class="card">
+<form id="form">
+<label for="mint">Solana token mint address</label>
+<input id="mint" placeholder="Paste a valid Solana mint address" autocomplete="off" required>
+<div class="actions"><button id="scan" type="submit">Scan token</button><button id="sample" type="button" class="secondary">Use sample</button><button id="clear" type="button" class="secondary">Clear</button></div>
+</form>
+<p id="status" class="muted">Enter a mint address and scan. Live results depend on public API availability.</p>
+</div>
+
+<section id="results" class="hidden">
+<div class="card">
+<div class="tokenhead"><img id="logo" alt="Token logo" referrerpolicy="no-referrer"><div><h2 id="name">Unknown token</h2><div id="symbol" class="muted">—</div><div id="badges" class="pillrow"></div></div></div>
+</div>
+
+<div class="grid">
+<div class="card"><div class="label">Price</div><div id="price" class="metric">—</div><div id="change" class="muted">24h change: —</div></div>
+<div class="card"><div class="label">Liquidity</div><div id="liquidity" class="metric">—</div><div id="liqNote" class="muted">—</div></div>
+<div class="card"><div class="label">24h volume</div><div id="volume" class="metric">—</div><div class="muted">Reported trading volume</div></div>
+<div class="card"><div class="label">Market cap / FDV</div><div id="cap" class="metric">—</div><div class="muted">Reported valuation data</div></div>
+</div>
+
+
+<div class="card">
+<h2>Price chart</h2>
+<div class="chart-toolbar">
+  <div class="timeframes" id="timeframes">
+    <button type="button" data-frame="5m">5M</button>
+    <button type="button" data-frame="15m">15M</button>
+    <button type="button" data-frame="1h" class="active">1H</button>
+    <button type="button" data-frame="4h">4H</button>
+    <button type="button" data-frame="1d">1D</button>
+  </div>
+  <button type="button" id="refreshChart" class="secondary">↻ Refresh</button>
+</div>
+<div class="chart-wrap"><canvas id="priceChart" aria-label="Token price chart"></canvas></div>
+<div class="chart-meta small muted"><span id="chartStatus">Select a timeframe to load chart data.</span><span id="chartRange">—</span></div>
+<p class="small muted">Chart data is fetched from GeckoTerminal when available. It is informational and may be delayed or incomplete.</p>
+</div>
+
+<div class="card"><h2>Risk indicator dashboard</h2>
+<div id="riskText" class="muted">—</div>
+<div class="row"><span>Liquidity indicator</span><b id="rLiquidity">—</b></div>
+<div class="row"><span>Volume indicator</span><b id="rVolume">—</b></div>
+<div class="row"><span>Buy/sell pressure</span><b id="rPressure">—</b></div>
+<div class="row"><span>Overall market signal</span><b id="rOverall">—</b></div>
+<p class="small muted">These are rule-based market signals, not a verified security score.</p>
+</div>
+
+<div class="card"><h2>Trading details</h2><div id="market"></div></div>
+<div class="card"><h2>Warnings and observations</h2><div id="warnings"></div></div>
+<div class="card"><h2>Official and research links</h2><div id="links"></div></div>
+<div class="card notice"><h2>Security limitation</h2><p class="muted">DEXGUARD V10 does not verify ownership, liquidity locks, holder concentration, transfer restrictions, hidden taxes, honeypots, Token-2022 extensions, upgrade authority or malicious behavior. A token with good market metrics can still be unsafe. Do not connect a wallet or sign a transaction because of this dashboard alone.</p></div>
+</section>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+const money=n=>Number.isFinite(Number(n))?new Intl.NumberFormat("en-US",{style:"currency",currency:"USD",maximumFractionDigits:8}).format(Number(n)):"—";
+const compact=n=>Number.isFinite(Number(n))?new Intl.NumberFormat("en-US",{notation:"compact",maximumFractionDigits:2}).format(Number(n)):"—";
+const valid=s=>/^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(s);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const row=(a,b)=>'<div class="row"><span class="muted">'+a+'</span><b>'+b+'</b></div>';
+function status(t,c="muted"){$("status").className=c;$("status").textContent=t}
+function pairFor(data){return(Array.isArray(data)?data:[]).filter(p=>p&&p.chainId==="solana"&&p.liquidity&&Number(p.liquidity.usd)>0).sort((a,b)=>Number(b.liquidity.usd||0)-Number(a.liquidity.usd||0))[0]||null}
+function indicator(value,good,medium){return value>=good?"Low concern":value>=medium?"Moderate concern":"Elevated concern"}
+
+let activeMint="", activePair=null, activeFrame="1h";
+const frameConfig={
+ "5m":{unit:"minute",aggregate:5,limit:100},
+ "15m":{unit:"minute",aggregate:15,limit:100},
+ "1h":{unit:"hour",aggregate:1,limit:100},
+ "4h":{unit:"hour",aggregate:4,limit:100},
+ "1d":{unit:"day",aggregate:1,limit:100}
+};
+function chartStatus(t,c="muted"){$("chartStatus").className="small "+c;$("chartStatus").textContent=t}
+function drawChart(rows){
+ const canvas=$("priceChart"), box=canvas.parentElement, dpr=window.devicePixelRatio||1;
+ const width=Math.max(320,box.clientWidth),height=Math.max(220,box.clientHeight);
+ canvas.width=Math.floor(width*dpr);canvas.height=Math.floor(height*dpr);
+ const ctx=canvas.getContext("2d");ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,width,height);
+ if(!rows.length){ctx.fillStyle="#94a3b8";ctx.font="14px Arial";ctx.fillText("No chart data available",20,35);return}
+ const values=rows.map(r=>Number(r[4])).filter(Number.isFinite);
+ const min=Math.min(...values),max=Math.max(...values),span=max-min||Math.max(max*0.01,1e-12);
+ const pad={l:14,r:14,t:18,b:24},w=width-pad.l-pad.r,h=height-pad.t-pad.b;
+ ctx.strokeStyle="#263449";ctx.lineWidth=1;
+ for(let i=0;i<4;i++){const y=pad.t+h*i/3;ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(width-pad.r,y);ctx.stroke()}
+ ctx.beginPath();
+ values.forEach((v,i)=>{const x=pad.l+w*(i/Math.max(values.length-1,1));const y=pad.t+h*(1-(v-min)/span);if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y)});
+ ctx.strokeStyle="#a78bfa";ctx.lineWidth=2.2;ctx.stroke();
+ const last=values[values.length-1];
+ $("chartRange").textContent=money(min)+" – "+money(max);
+}
+async function loadChart(){
+ if(!activePair?.pairAddress){chartStatus("A trading pair is required before loading chart data.","warn");return}
+ const cfg=frameConfig[activeFrame];chartStatus("Loading "+activeFrame+" chart…");
+ try{
+  const url="https://api.geckoterminal.com/api/v2/networks/solana/pools/"+encodeURIComponent(activePair.pairAddress)+"/ohlcv/"+cfg.unit+"?aggregate="+cfg.aggregate+"&limit="+cfg.limit+"&currency=usd";
+  const r=await fetch(url,{headers:{accept:"application/json"},cache:"no-store"});
+  if(!r.ok)throw Error("Chart API HTTP "+r.status);
+  const data=await r.json();const rows=data?.data?.attributes?.ohlcv_list||[];
+  drawChart(rows.slice().reverse());chartStatus(rows.length?"Chart updated from GeckoTerminal.":"No chart candles returned.",rows.length?"muted":"warn");
+ }catch(e){chartStatus("Chart unavailable: "+e.message,"bad");drawChart([])}
+}
+function setFrame(frame){
+ activeFrame=frame;
+ document.querySelectorAll("#timeframes button").forEach(b=>b.classList.toggle("active",b.dataset.frame===frame));
+ loadChart();
+}
+
+function render(m,p){
+ activeMint=m;activePair=p;
+ const b=p?.baseToken||{},liq=Number(p?.liquidity?.usd||0),vol=Number(p?.volume?.h24||0),buys=Number(p?.txns?.h24?.buys||0),sells=Number(p?.txns?.h24?.sells||0),total=buys+sells;
+ $("name").textContent=b.name||"Unknown token";$("symbol").textContent=(b.symbol||"—")+" • "+m;
+ $("logo").src=p?.info?.imageUrl||"";
+ $("logo").style.visibility=p?.info?.imageUrl?"visible":"hidden";
+ $("price").textContent=money(Number(p?.priceUsd||NaN));
+ $("change").textContent="24h change: "+(p?.priceChange?.h24!=null?p.priceChange.h24+"%":"—");
+ $("liquidity").textContent=money(liq);$("volume").textContent=money(vol);
+ $("cap").textContent=money(Number(p?.marketCap||NaN))+" / "+money(Number(p?.fdv||NaN));
+ $("liqNote").textContent=liq<10000?"Very limited":liq<50000?"Limited":"Reported liquidity";
+ $("badges").innerHTML='<span class="badge">'+esc(p?.dexId||"No DEX")+'</span><span class="badge">'+esc(p?.quoteToken?.symbol||"—")+'</span>';
+ $("market").innerHTML=[row("Trading pair",esc((b.symbol||"TOKEN")+"/"+(p?.quoteToken?.symbol||"—"))),row("DEX",esc(p?.dexId||"—")),row("24h buys / sells",esc(buys+" / "+sells)),row("Pair address",esc(p?.pairAddress||"—")),row("Data source","DexScreener")].join("");
+ const liqLabel=indicator(liq,50000,10000),volLabel=indicator(vol,10000,1000);
+ const pressure=total?buys/sells:"—";
+ const pressureLabel=total?(buys>sells*2?"Buy-heavy":sells>buys*2?"Sell-heavy":"Mixed"):"Unavailable";
+ $("rLiquidity").textContent=liqLabel;$("rVolume").textContent=volLabel;$("rPressure").textContent=pressureLabel;
+ const concerns=(liq<10000?2:liq<50000?1:0)+(vol<1000?1:0)+(sells>buys*3?1:0);
+ $("rOverall").textContent=concerns>=3?"Several warning signals":concerns>=1?"Review carefully":"No basic warning triggered";
+ $("riskText").textContent=concerns>=3?"Multiple basic market warning signals were detected. Investigate independently before taking any action.":concerns>=1?"One or more basic market indicators deserve additional research.":"This snapshot did not trigger the basic market rules; this does not establish safety.";
+ let w=[];
+ if(!p)w.push('<p class="warn">No usable Solana trading pair was returned.</p>');
+ else{
+  if(liq<10000)w.push('<p class="bad">Reported liquidity is very low; price impact and exit risk may be high.</p>');
+  else if(liq<50000)w.push('<p class="warn">Reported liquidity is limited; use caution with slippage and exits.</p>');
+  if(vol<1000)w.push('<p class="warn">Reported 24-hour volume is very low.</p>');
+  if(sells>buys*3)w.push('<p class="warn">Reported sells substantially exceed buys in the last 24 hours.</p>');
+  if(p?.priceChange?.h24!=null&&Number(p.priceChange.h24)<=-30)w.push('<p class="warn">The reported 24-hour price change is sharply negative.</p>');
+ }
+ if(!w.length)w.push('<p class="good">No basic market warning was triggered by this snapshot.</p>');
+ $("warnings").innerHTML=w.join("")+'<p class="muted">Market data can be delayed, incomplete or manipulated.</p>';
+ $("links").innerHTML='<a target="_blank" rel="noopener" href="https://solscan.io/token/'+encodeURIComponent(m)+'">Open on Solscan</a><br><br><a target="_blank" rel="noopener" href="https://dexscreener.com/solana/'+encodeURIComponent(m)+'">Open on DexScreener</a>';
+ $("results").classList.remove("hidden");
+ loadChart();
+}
+async function scan(m){
+ status("Loading live market data…");$("scan").disabled=true;
+ try{
+  const r=await fetch("https://api.dexscreener.com/token-pairs/v1/solana/"+encodeURIComponent(m),{headers:{accept:"application/json"},cache:"no-store"});
+  const text=await r.text();if(!r.ok)throw Error("API HTTP "+r.status);
+  let data;try{data=JSON.parse(text)}catch{throw Error("The API returned non-JSON data. Retry in Chrome or later.")}
+  const p=pairFor(data);render(m,p);status(p?"Scan complete. Review the dashboard and warnings.":"No usable market pair was found.",p?"muted":"warn");
+ }catch(e){$("results").classList.add("hidden");status("Live scan failed: "+e.message+". The mint may be valid, but the API or network may be unavailable.","bad")}
+ finally{$("scan").disabled=false}
+}
+
+document.querySelectorAll("#timeframes button").forEach(b=>b.addEventListener("click",()=>setFrame(b.dataset.frame)));
+$("refreshChart").addEventListener("click",loadChart);
+window.addEventListener("resize",()=>{if(activePair)loadChart()});
+$("form").addEventListener("submit",e=>{e.preventDefault();let m=$("mint").value.trim().replace(/[`'"\\\\]/g,"");$("mint").value=m;if(!valid(m))return status("Input error: use a 32–44 character Solana base58 mint address only.","bad");scan(m)});
+$("sample").onclick=()=>{$("mint").value="So11111111111111111111111111111111111111112";status("Sample inserted. Press Scan token.")};
+$("clear").onclick=()=>{$("mint").value="";$("results").classList.add("hidden");status("Cleared. Paste a mint address to begin.")};
+</script>
+</body>
+</html>
