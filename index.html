@@ -76,6 +76,30 @@ img,svg,canvas{max-width:100%}
   .actions{grid-template-columns:1fr}
   .actions button:last-child{grid-column:auto}
 }
+
+/* V12 UX upgrade: named sidebar, standalone scanner, theme and account controls */
+:root{--panel:#06161c;--input:#031217;--shadow:0 8px 30px #0005}
+body.light{--bg:#eef7f5;--card:#ffffff;--line:#b8d8d2;--green:#087f57;--teal:#087f8a;--text:#102522;--muted:#54716d;--input:#f2fbf8;background:linear-gradient(135deg,#e8faf3,#f8fffd 60%,#dff4ef)}
+body.light .side{background:#eaf8f3eF}
+body.light .card,body.light .token{background:var(--card);box-shadow:var(--shadow)}
+body.light .search,body.light input{background:var(--input);color:var(--text)}
+body.light .top button,body.light .btn{background:#fff;color:var(--text)}
+body.light .riskitem{background:#f0faf7}
+body.light .addr,body.light .tiny{color:var(--muted)}
+body.light .nav button{color:#385c55}
+body.light .nav button.active{background:#d5f7e8;color:#087f57}
+.top .top-action{white-space:nowrap}
+.account-panel{display:flex;align-items:center;gap:8px}
+.modal-backdrop{position:fixed;inset:0;background:#0009;display:none;place-items:center;z-index:1000;padding:18px}
+.modal-backdrop.open{display:grid}
+.modal{width:min(440px,100%);background:var(--card);color:var(--text);border:1px solid var(--green);border-radius:18px;padding:22px;box-shadow:0 0 50px #19f39b22}
+.modal input,.settings-input{width:100%;padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--input);color:var(--text);margin:7px 0}
+.modal .row-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.setting-row{display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:1px solid var(--line);padding:14px 0}
+.switch{accent-color:var(--green);transform:scale(1.25)}
+#scanReceipt{margin-top:14px}
+.status-badge{font-size:11px;border:1px solid var(--line);border-radius:999px;padding:4px 8px;color:var(--green)}
+@media(max-width:700px){.account-panel{width:100%;justify-content:flex-end}.top .top-action{padding:8px}.modal{padding:16px}}
 </style></head>
 <body><div class="app">
 <aside class="side"><div class="logo">🛡 GUARDY<span style="color:var(--green)">XIS</span> <b>V12</b></div>
@@ -91,17 +115,35 @@ img,svg,canvas{max-width:100%}
 </nav>
 <div class="mascot"><svg viewBox="0 0 220 240"><path d="M110 20L190 55 178 145Q160 195 110 220Q60 195 42 145L30 55z" fill="#071e27" stroke="#00dcb0" stroke-width="3"/><path d="M50 83L25 35 65 48 90 82M170 83L195 35 155 48 130 82" fill="#071e27" stroke="#18e9d0" stroke-width="4"/><path d="M62 102L96 92 105 120 72 132zM158 102L124 92 115 120 148 132z" fill="#020b10" stroke="#18f39a" stroke-width="3"/><path d="M83 161Q110 145 137 161L130 192 110 204 90 192z" fill="#020b10" stroke="#18f39a" stroke-width="3"/></svg><br>GUARD THE<br><b style="color:var(--green)">GOOD TRADES</b><br>NOT JUST THE HYPE</div>
 <div class="network">🟢 Solana Network<br><span class="tiny">Healthy</span></div></aside>
-<div class="main"><header class="top"><div class="search">◎<input id="search" placeholder="Token address, name, or symbol…"><button onclick="searchToken()">⌕</button></div><button>♧</button><button>☼</button><button>◎ Solana⌄</button></header>
+<div class="main"><header class="top"><div class="search">◎<input id="search" placeholder="Token address, name, or symbol…"><button onclick="searchToken()">⌕</button></div><div class="account-panel"><button class="top-action" onclick="toggleTheme()" title="Toggle light or dark mode">☼ Theme</button><button class="top-action" onclick="openAuth()">♙ Sign in</button><button class="top-action">◎ Solana⌄</button></div></header>
 <div class="content">
 <section id="home" class="page active"><div id="searchResults" class="card" style="display:none;margin-bottom:14px"></div><div class="grid"><section class="card"><div class="head"><div><h2>🔥 Trending Tokens</h2><p>Live trending Solana tokens from GeckoTerminal <span id="refreshState" class="green">• Auto refresh: 30s</span></p></div><button class="btn" onclick="loadTrending()">View All ›</button></div><div id="list" class="list">Loading…</div></section><aside class="card glow"><div class="head"><div><h2>🧾 Token Receipt</h2><p>Detailed token analysis report</p></div><button class="btn" onclick="shareReceipt()">Share</button><button class="btn" onclick="downloadReceiptImage()">🖼 Save Card</button></div><div id="receipt"><div class="tiny">Select a token to inspect its receipt.</div></div></aside></div></section>
 <section id="trend" class="page"><div class="card"><div class="head"><h2>🔥 Trending Tokens</h2><button class="btn" onclick="loadTrending()">Refresh</button></div><div id="fullList" class="list"></div></div></section>
-<section id="scan" class="page"><div class="card"><h2>Token Scanner</h2><p class="tiny">Paste a Solana mint address or pair address.</p><div style="display:flex;gap:8px"><input id="mint" style="flex:1;background:#031117;border:1px solid var(--line);border-radius:10px;color:white;padding:12px" placeholder="Mint address"><button class="btn" onclick="scan()">Scan</button></div><p id="status" class="tiny"></p></div></section>
+<section id="scan" class="page"><div class="card"><div class="head"><div><h2>⌕ Token Scanner</h2><p class="tiny">Scan a Solana mint address, pair address, name, or symbol.</p></div><span class="status-badge">Standalone tool</span></div><div style="display:flex;gap:8px;flex-wrap:wrap"><input id="mint" style="flex:1;min-width:0;background:var(--input);border:1px solid var(--line);border-radius:10px;color:var(--text);padding:12px" placeholder="Paste mint or pair address"><button class="btn" onclick="scan()">Scan Token</button></div><p id="status" class="tiny"></p><div id="scanReceipt" class="card" style="display:none"></div></div></section>
 <section id="analysis" class="page"><div class="card"><div class="head"><h2>Market Analysis</h2><div><button class="btn" onclick="loadChart('minute')">1m</button><button class="btn" onclick="loadChart('hour')">1h</button><button class="btn" onclick="loadChart('day')">1D</button></div></div><canvas id="chart" class="chart" width="900" height="400"></canvas><p id="chartStatus" class="tiny"></p><div id="patterns" class="riskgrid"></div></div></section>
 <section id="watch" class="page"><div class="card"><h2>Watchlist</h2><div id="watchList" class="list"></div></div></section>
 <section id="reports" class="page"><div class="card"><h2>Reports</h2><div id="reportList" class="list"></div></div></section>
 <section id="risk" class="page"><div class="card"><h2>Risk Tools</h2><p class="tiny">Risk outputs are heuristic indicators, not a formal security audit or guarantee.</p><div class="riskgrid"><div class="riskitem">Liquidity check <b class="unknown">API dependent</b></div><div class="riskitem">Contract checks <b class="unknown">Not verified</b></div></div></div></section>
-<section id="settings" class="page"><div class="card"><h2>Settings</h2><p class="tiny">GUARDYXIS runs as a client-side research dashboard. No wallet connection or private-key input is required.</p><button class="btn" onclick="localStorage.clear();location.reload()">Clear local saved reports</button></div></section>
+<section id="settings" class="page"><div class="card"><h2>⚙ Settings</h2><p class="tiny">Customize your GUARDYXIS experience. No wallet connection or private-key input is required.</p>
+<div class="setting-row"><div><b>Appearance</b><div class="tiny">Switch between dark and light mode.</div></div><button class="btn" onclick="toggleTheme()">Toggle theme</button></div>
+<div class="setting-row"><div><b>Auto-refresh trending</b><div class="tiny">Refresh trending data every 30 seconds.</div></div><input class="switch" id="autoRefreshToggle" type="checkbox" checked onchange="setAutoRefresh(this.checked)"></div>
+<div class="setting-row"><div><b>Compact mobile navigation</b><div class="tiny">Keep the named sidebar usable on small screens.</div></div><span class="status-badge">Responsive</span></div>
+<div class="setting-row"><div><b>Account</b><div id="accountStatus" class="tiny">Not signed in</div></div><button class="btn" onclick="openAuth()">Sign in / Sign up</button></div>
+<div style="margin-top:16px"><button class="btn" onclick="clearSavedData()">Clear local saved reports and preferences</button></div>
+</div></section>
 </div><div class="footer">GUARDYXIS V12 • Educational research only • Never share your seed phrase</div></div></div>
+
+<div id="authModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-label="Account access">
+  <div class="modal">
+    <div class="head"><h2>GUARDYXIS Account</h2><button class="btn" onclick="closeAuth()">✕</button></div>
+    <p class="tiny">Create a local demo account now. Secure Gmail/Google OAuth requires connecting your own Firebase or Google Identity client configuration.</p>
+    <input id="authName" placeholder="Your name">
+    <input id="authEmail" type="email" placeholder="Gmail address">
+    <div class="row-actions"><button class="btn" onclick="continueWithGoogle()">Continue with Google</button><button class="btn" onclick="localAccount()">Create / Sign in</button></div>
+    <p id="authStatus" class="tiny"></p>
+  </div>
+</div>
+
 <script>
 const $=id=>document.getElementById(id);let current=null,pool=null,reports=JSON.parse(localStorage.getItem('gx_reports')||'[]');
 const money=n=>n==null?'—':Number(n).toLocaleString(undefined,{style:'currency',currency:'USD',maximumFractionDigits:Number(n)<1?10:2});
@@ -138,7 +180,7 @@ async function scanMint(m){
   }
   if(!p)throw Error('No Solana market pair found');
   current={mint:p.baseToken?.address||m,pair:p};pool=p.pairAddress;
-  renderReceipt();saveReport();$('status').textContent='Scan complete';closeSearch();go('home');loadChart('hour');
+  renderReceipt();$('scanReceipt').style.display='block';$('scanReceipt').innerHTML=$('receipt').innerHTML;saveReport();$('status').textContent='Scan complete';closeSearch();go('scan');loadChart('hour');
  }catch(e){$('status').textContent='Error: '+e.message}
 }
 function renderReceipt(){let p=current.pair,b=p.baseToken||{},liq=p.liquidity?.usd||0,vol=p.volume?.h24||0,score=liq<10000?82:liq<100000?58:32;$('receipt').innerHTML='<div class="receipt-head">'+avatar(b.symbol)+'<div><h3>'+(b.symbol||'TOKEN')+' ✦</h3><span class="tag">Market data</span><div class="addr">'+short(current.mint)+' ⧉</div></div></div><div class="stats"><div><span class="tiny">Price</span><strong>'+money(p.priceUsd)+'</strong><span class="green tiny">'+(p.priceChange?.h24??'—')+'% (24h)</span></div><div><span class="tiny">Liquidity</span><strong>'+money(liq)+'</strong><span class="tiny">24h Volume<br>'+money(vol)+'</span></div></div><div class="risk"><div class="riskline"><b>🛡 Risk Score</b><b class="green">'+score+' / 100</b></div><div class="bar"><i style="width:'+score+'%"></i></div><div class="riskgrid">'+['Honeypot: Unknown','LP locked: Unknown','Mintable: Unknown','Tax: Unknown','Blacklist: Unknown','Owner: Unknown'].map(x=>'<div class="riskitem">'+x+' <b class="unknown">?</b></div>').join('')+'</div></div><div class="risk"><b>ⓘ Token Overview</b><div class="rows"><div class="row"><span>Symbol</span><b>'+ (b.symbol||'—')+'</b></div><div class="row"><span>Name</span><b>'+ (b.name||'—')+'</b></div><div class="row"><span>Chain</span><b>Solana</b></div><div class="row"><span>DEX</span><b>'+ (p.dexId||'—')+'</b></div><div class="row"><span>Pair</span><b>'+short(p.pairAddress)+'</b></div></div></div><div class="actions"><button onclick="copyText(\''+current.mint+'\')">▣ Copy Address</button><button onclick="go(\'scan\')">⌕ Scan Token</button><button onclick="window.open(\''+(p.url||'#')+'\',\'_blank\')">↗ View Market</button></div>'}
@@ -184,5 +226,33 @@ async function refreshTrending(){
 }
 
 $('search').addEventListener('keydown',e=>{if(e.key==='Enter')searchToken()});$('mint').addEventListener('keydown',e=>{if(e.key==='Enter')scan()});loadTrending();
-setInterval(refreshTrending,30000);
+if(!refreshTimer)refreshTimer=setInterval(refreshTrending,30000);
+
+function applyTheme(){
+  const theme=localStorage.getItem('gx_theme')||'dark';
+  document.body.classList.toggle('light',theme==='light');
+  const s=$('accountStatus');if(s){const a=JSON.parse(localStorage.getItem('gx_account')||'null');s.textContent=a?'Signed in locally as '+a.email:'Not signed in';}
+}
+function toggleTheme(){const next=document.body.classList.contains('light')?'dark':'light';localStorage.setItem('gx_theme',next);applyTheme();}
+let refreshTimer=null;
+function setAutoRefresh(enabled){
+  localStorage.setItem('gx_auto_refresh',enabled?'1':'0');
+  if(refreshTimer)clearInterval(refreshTimer);
+  if(enabled)refreshTimer=setInterval(refreshTrending,30000);
+}
+function clearSavedData(){localStorage.removeItem('gx_reports');localStorage.removeItem('gx_account');alert('Saved reports and account data cleared.');location.reload();}
+function openAuth(){$('authModal').classList.add('open');$('authStatus').textContent='';}
+function closeAuth(){$('authModal').classList.remove('open');}
+function localAccount(){
+  const name=$('authName').value.trim(),email=$('authEmail').value.trim();
+  if(!name||!/^[^@\s]+@gmail\.com$/i.test(email)){ $('authStatus').textContent='Enter your name and a valid Gmail address.';return; }
+  localStorage.setItem('gx_account',JSON.stringify({name,email,createdAt:new Date().toISOString()}));
+  $('authStatus').textContent='Local account created. Google OAuth setup is still required for real account authentication.';
+  applyTheme();
+}
+function continueWithGoogle(){
+  $('authStatus').textContent='Google sign-in needs your own OAuth/Firebase client configuration; this static build does not collect passwords or private keys.';
+}
+
+applyTheme();setAutoRefresh(localStorage.getItem('gx_auto_refresh')!=='0');
 </script></body></html>
