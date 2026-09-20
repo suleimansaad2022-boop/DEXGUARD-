@@ -2,201 +2,75 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#080d19">
-<title>DEXGUARD V11</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GUARDYXIS V12 — Solana Token Intelligence</title>
 <style>
-*{box-sizing:border-box}body{margin:0;background:#070c17;color:#f8fafc;font-family:Arial,sans-serif}
-.wrap{max-width:1000px;margin:auto;padding:18px 15px 55px}
-header{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
-h1{font-size:clamp(34px,8vw,62px);margin:8px 0}h1 span{color:#a78bfa}h1 small{font-size:.42em;color:#94a3b8}
-h2{margin-top:0}.muted{color:#94a3b8;line-height:1.6}.card{background:#111b2d;border:1px solid #334155;border-radius:19px;padding:18px;margin:14px 0;box-shadow:0 8px 28px #0003}
-input{width:100%;padding:15px;border-radius:12px;border:1px solid #64748b;background:#080f1e;color:#fff;font-size:15px;margin:9px 0}
-button{padding:14px 20px;border:0;border-radius:12px;background:#8b5cf6;color:#fff;font-size:15px;font-weight:bold;margin:3px}.secondary{background:#29384f}
-.actions{display:flex;gap:8px;flex-wrap:wrap}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
-.metric{font-size:clamp(21px,5vw,31px);font-weight:bold;margin-top:8px;overflow-wrap:anywhere}.label{font-size:13px;color:#94a3b8}
-.row{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid #334155;font-size:14px}.row:last-child{border-bottom:0}.row b{text-align:right;overflow-wrap:anywhere}
-.badge{display:inline-block;padding:6px 10px;border-radius:999px;background:#263449;color:#cbd5e1;font-size:12px;font-weight:bold}
-.good{color:#86efac}.warn{color:#fcd34d}.bad{color:#fca5a5}.hidden{display:none}
-.tokenhead{display:flex;align-items:center;gap:14px}.tokenhead img{width:66px;height:66px;border-radius:50%;object-fit:cover;background:#263449}
-.notice{border-left:4px solid #f59e0b}.bar{height:10px;background:#263449;border-radius:20px;overflow:hidden;margin-top:10px}.bar i{display:block;height:100%;width:0;background:#8b5cf6}
-a{color:#c4b5fd}.small{font-size:12px}.pillrow{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}
-
-.chart-toolbar{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin:10px 0}
-.timeframes{display:flex;gap:5px;flex-wrap:wrap}
-.timeframes button{padding:9px 12px;font-size:12px;background:#29384f}
-.timeframes button.active{background:#8b5cf6}
-.chart-wrap{position:relative;width:100%;height:280px;background:#080f1e;border:1px solid #263449;border-radius:14px;overflow:hidden}
-#priceChart{display:block;width:100%;height:100%}
-.chart-meta{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:9px}
+:root{--bg:#070b16;--panel:#10182b;--panel2:#0d1323;--text:#edf4ff;--muted:#91a4c4;--line:#263552;--accent:#70e1ff;--green:#53e6a1;--red:#ff7088;--yellow:#ffd166}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 20% 0%,#173151 0,#070b16 38%),var(--bg);color:var(--text);font-family:Inter,system-ui,Arial,sans-serif}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.16;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='420' viewBox='0 0 420 420'%3E%3Cg fill='none' stroke='%2370e1ff' stroke-width='2' opacity='.55'%3E%3Cpath d='M50 120L105 55 175 85 205 155 165 220 90 205zM260 260l55-75 70 35-10 85-80 30z'/%3E%3Cpath d='M70 310l45-50 60 20 15 65-65 35z'/%3E%3C/g%3E%3Cg fill='%23ff7088' opacity='.3'%3E%3Cpath d='M310 45l18 45 48 4-37 30 11 47-40-25-42 25 12-47-37-30 48-4z'/%3E%3C/g%3E%3C/svg%3E");z-index:-1}
+header{position:sticky;top:0;z-index:5;background:#080e1be8;backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.wrap{max-width:1250px;margin:auto;padding:18px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}.brand{font-weight:900;letter-spacing:.08em;font-size:1.25rem}.brand span{color:var(--accent)}.sub{color:var(--muted);font-size:.78rem;margin-top:3px}
+nav{display:flex;gap:8px;flex-wrap:wrap}button,.btn{border:1px solid var(--line);background:#111d33;color:var(--text);padding:10px 13px;border-radius:10px;cursor:pointer;font-weight:700}button:hover,.btn:hover{border-color:var(--accent)}button.active{background:#1a3c55;border-color:var(--accent)}
+main{max-width:1250px;margin:auto;padding:22px 18px 60px}.hero{display:grid;grid-template-columns:1.35fr 1fr;gap:18px;align-items:stretch}.panel{background:linear-gradient(145deg,#111b30e8,#0c1323e8);border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:0 14px 40px #0003}.hero h1{font-size:clamp(1.8rem,4vw,3.8rem);line-height:1;margin:12px 0}.hero p{color:var(--muted);max-width:620px}.badge{display:inline-flex;gap:7px;align-items:center;border:1px solid #31506e;border-radius:999px;padding:7px 10px;color:var(--accent);font-size:.75rem;font-weight:800}.animal{min-height:270px;display:grid;place-items:center;overflow:hidden;background:radial-gradient(circle,#243c55,#0b1220 65%);position:relative}.animal svg{width:100%;max-height:300px;filter:drop-shadow(0 0 24px #ff708855)}.animal:after{content:"RISK • DATA • DISCIPLINE";position:absolute;bottom:12px;letter-spacing:.25em;color:#8da6c8;font-size:.65rem}
+section{margin-top:22px}.section-title{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:12px}.section-title h2{margin:0;font-size:1.2rem}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.metric strong{display:block;font-size:1.4rem;margin-top:6px;overflow-wrap:anywhere}.label{font-size:.75rem;color:var(--muted)}.green{color:var(--green)}.red{color:var(--red)}.yellow{color:var(--yellow)}
+input,select{width:100%;background:#080f1e;border:1px solid var(--line);color:var(--text);padding:12px;border-radius:10px;outline:none}input:focus,select:focus{border-color:var(--accent)}.scanner{display:grid;grid-template-columns:1fr auto;gap:10px}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.layout{display:grid;grid-template-columns:1.4fr 1fr;gap:16px}.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;font-size:.86rem}th,td{text-align:left;padding:12px 8px;border-bottom:1px solid var(--line);white-space:nowrap}th{color:var(--muted);font-size:.72rem;text-transform:uppercase}.token{font-weight:800}.small{font-size:.75rem;color:var(--muted)}
+canvas{width:100%;height:320px;background:#080f1b;border:1px solid var(--line);border-radius:12px}.chart-tools{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}.chart-tools button{padding:7px 10px;font-size:.78rem}
+.risk-list{display:grid;gap:9px}.risk{display:flex;justify-content:space-between;gap:12px;padding:10px;border:1px solid var(--line);border-radius:10px;background:#0a1220}.pill{border-radius:999px;padding:4px 8px;font-size:.7rem;font-weight:900}.pass{background:#123d31;color:var(--green)}.warn{background:#463719;color:var(--yellow)}.fail{background:#481e2b;color:var(--red)}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.token-card{cursor:pointer}.token-card:hover{transform:translateY(-2px);border-color:var(--accent)}.token-card h3{margin:5px 0}.token-card p{margin:5px 0;color:var(--muted);font-size:.8rem}.empty{padding:22px;color:var(--muted);text-align:center;border:1px dashed var(--line);border-radius:12px}
+footer{border-top:1px solid var(--line);color:var(--muted);font-size:.78rem;padding:20px;text-align:center}.hidden{display:none!important}
+@media(max-width:900px){.hero,.layout{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,1fr)}.cards{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){main,.wrap{padding-left:12px;padding-right:12px}.grid,.cards{grid-template-columns:1fr 1fr}.scanner{grid-template-columns:1fr}.hero h1{font-size:2.3rem}.panel{padding:13px}canvas{height:245px}}
 </style>
 </head>
 <body>
-<div class="wrap">
-<header><h1>DEX<span>GUARD</span> <small>V11</small></h1><span class="badge">Professional dashboard</span></header>
-<p class="muted">Market research dashboard for Solana tokens. Static Netlify version with charts, clearer indicators and safer explanations.</p>
-
-<div class="card">
-<form id="form">
-<label for="mint">Solana token mint address</label>
-<input id="mint" placeholder="Paste a valid Solana mint address" autocomplete="off" required>
-<div class="actions"><button id="scan" type="submit">Scan token</button><button id="sample" type="button" class="secondary">Use sample</button><button id="clear" type="button" class="secondary">Clear</button></div>
-</form>
-<p id="status" class="muted">Enter a mint address and scan. Live results depend on public API availability.</p>
+<header><div class="wrap top"><div><div class="brand">GUARDY<span>XIS</span> <small>V12</small></div><div class="sub">Solana token intelligence • research first</div></div><nav>
+<button class="active" data-page="dashboard">Dashboard</button><button data-page="trending">Trending</button><button data-page="scanner">Scanner</button><button data-page="watchlist">Watchlist</button><button data-page="reports">Reports</button>
+</nav></div></header>
+<main>
+<div id="dashboard" class="page">
+<div class="hero"><div class="panel"><span class="badge">🛡️ NON-CUSTODIAL RESEARCH TOOL</span><h1>See the signal.<br><span style="color:var(--accent)">Question the hype.</span></h1><p>Inspect Solana tokens, market activity, liquidity, OHLCV candles, risk indicators and shareable research receipts from one mobile-friendly dashboard.</p><div class="actions"><button onclick="showPage('scanner')">Scan a token</button><button onclick="showPage('trending')">Explore trending</button></div></div>
+<div class="panel animal"><svg viewBox="0 0 500 300" role="img" aria-label="Furious stylized guardian buffalo"><path fill="#161b2b" stroke="#70e1ff" stroke-width="5" d="M110 250L90 150 125 75 205 45 250 85 295 45 375 75 410 150 390 250 325 265 280 220 220 220 175 265z"/><path fill="#29364d" stroke="#ff7088" stroke-width="5" d="M125 75Q45 20 30 95Q35 145 105 130L150 105M375 75Q455 20 470 95Q465 145 395 130L350 105"/><path fill="#080e1b" stroke="#70e1ff" stroke-width="4" d="M145 130L205 110 235 155 210 185 145 175zM355 130L295 110 265 155 290 185 355 175z"/><path fill="#ff7088" d="M170 145l28 8-20 17zM330 145l-28 8 20 17z"/><path fill="#0b1220" stroke="#70e1ff" stroke-width="4" d="M195 200L250 175 305 200 285 255 250 270 215 255z"/><path fill="none" stroke="#ff7088" stroke-width="7" d="M220 225Q250 245 280 225M230 245h40"/></svg></div></div>
+<section><div class="section-title"><h2>Market snapshot</h2><span class="small" id="updated">Not loaded yet</span></div><div class="grid"><div class="panel metric"><span class="label">Selected token</span><strong id="mName">—</strong><span class="small" id="mSymbol">Enter a mint below</span></div><div class="panel metric"><span class="label">Price USD</span><strong id="mPrice">—</strong><span class="small" id="mChange">—</span></div><div class="panel metric"><span class="label">Liquidity</span><strong id="mLiquidity">—</strong><span class="small">Reported by market source</span></div><div class="panel metric"><span class="label">24h volume</span><strong id="mVolume">—</strong><span class="small">Reported by market source</span></div></div></section>
 </div>
-
-<section id="results" class="hidden">
-<div class="card">
-<div class="tokenhead"><img id="logo" alt="Token logo" referrerpolicy="no-referrer"><div><h2 id="name">Unknown token</h2><div id="symbol" class="muted">—</div><div id="badges" class="pillrow"></div></div></div>
-</div>
-
-<div class="grid">
-<div class="card"><div class="label">Price</div><div id="price" class="metric">—</div><div id="change" class="muted">24h change: —</div></div>
-<div class="card"><div class="label">Liquidity</div><div id="liquidity" class="metric">—</div><div id="liqNote" class="muted">—</div></div>
-<div class="card"><div class="label">24h volume</div><div id="volume" class="metric">—</div><div class="muted">Reported trading volume</div></div>
-<div class="card"><div class="label">Market cap / FDV</div><div id="cap" class="metric">—</div><div class="muted">Reported valuation data</div></div>
-</div>
-
-
-<div class="card">
-<h2>Price chart</h2>
-<div class="chart-toolbar">
-  <div class="timeframes" id="timeframes">
-    <button type="button" data-frame="5m">5M</button>
-    <button type="button" data-frame="15m">15M</button>
-    <button type="button" data-frame="1h" class="active">1H</button>
-    <button type="button" data-frame="4h">4H</button>
-    <button type="button" data-frame="1d">1D</button>
-  </div>
-  <button type="button" id="refreshChart" class="secondary">↻ Refresh</button>
-</div>
-<div class="chart-wrap"><canvas id="priceChart" aria-label="Token price chart"></canvas></div>
-<div class="chart-meta small muted"><span id="chartStatus">Select a timeframe to load chart data.</span><span id="chartRange">—</span></div>
-<p class="small muted">Chart data is fetched from GeckoTerminal when available. It is informational and may be delayed or incomplete.</p>
-</div>
-
-<div class="card"><h2>Risk indicator dashboard</h2>
-<div id="riskText" class="muted">—</div>
-<div class="row"><span>Liquidity indicator</span><b id="rLiquidity">—</b></div>
-<div class="row"><span>Volume indicator</span><b id="rVolume">—</b></div>
-<div class="row"><span>Buy/sell pressure</span><b id="rPressure">—</b></div>
-<div class="row"><span>Overall market signal</span><b id="rOverall">—</b></div>
-<p class="small muted">These are rule-based market signals, not a verified security score.</p>
-</div>
-
-<div class="card"><h2>Trading details</h2><div id="market"></div></div>
-<div class="card"><h2>Warnings and observations</h2><div id="warnings"></div></div>
-<div class="card"><h2>Official and research links</h2><div id="links"></div></div>
-<div class="card notice"><h2>Security limitation</h2><p class="muted">DEXGUARD V10 does not verify ownership, liquidity locks, holder concentration, transfer restrictions, hidden taxes, honeypots, Token-2022 extensions, upgrade authority or malicious behavior. A token with good market metrics can still be unsafe. Do not connect a wallet or sign a transaction because of this dashboard alone.</p></div>
-</section>
-</div>
-
+<div id="trending" class="page hidden"><div class="section-title"><h2>Trending Solana pools</h2><button onclick="loadTrending()">Refresh</button></div><div id="trendCards" class="cards"><div class="empty">Loading trending pools…</div></div></div>
+<div id="scanner" class="page hidden"><div class="section-title"><h2>Mint scanner</h2><span class="small">Paste a Solana mint address</span></div><div class="panel"><div class="scanner"><input id="mint" placeholder="Solana mint address"><button onclick="scan()">Scan</button></div><div class="actions"><button onclick="loadDemo()">Use demo mint</button><button onclick="clearScan()">Clear</button></div><p class="small">Data comes from public market APIs. A missing result does not prove a token is safe or unsafe.</p><div id="scanStatus" class="small"></div></div></div>
+<div id="watchlist" class="page hidden"><div class="section-title"><h2>Your watchlist</h2><button onclick="renderWatchlist()">Refresh</button></div><div id="watchCards" class="cards"></div></div>
+<div id="reports" class="page hidden"><div class="section-title"><h2>Research reports</h2><span class="small">Saved locally in this browser</span></div><div id="reportList"></div></div>
+<section id="analysis" class="hidden"><div class="section-title"><h2 id="tokenTitle">Token analysis</h2><div class="actions"><button onclick="toggleWatch()">☆ Watchlist</button><button onclick="shareReceipt()">Share receipt</button><button onclick="printReceipt()">Print</button></div></div><div class="layout"><div class="panel"><div class="chart-tools"><button data-tf="minute" onclick="loadChart('minute')">1m</button><button data-tf="hour" onclick="loadChart('hour')">1h</button><button data-tf="day" onclick="loadChart('day')">1D</button><button onclick="loadChart(currentTimeframe)">↻ Refresh</button></div><canvas id="chart" width="900" height="420"></canvas><p class="small" id="chartStatus">Candles will load after a pool is found.</p><h3>Candle pattern notes</h3><div id="patterns" class="risk-list"></div></div><div class="panel"><h3>Risk indicators</h3><p class="small">Heuristic signals only—not an audit, guarantee, or investment recommendation.</p><div id="riskList" class="risk-list"></div><h3>Market details</h3><div id="details" class="small"></div></div></div></section>
+<section><div class="panel"><h3>Safety checklist</h3><div class="risk-list"><div class="risk"><span>Verify the exact mint address</span><span class="pill pass">Required</span></div><div class="risk"><span>Check liquidity depth and volume quality</span><span class="pill warn">Review</span></div><div class="risk"><span>Inspect holder concentration and contract controls</span><span class="pill warn">Review</span></div><div class="risk"><span>Never share your seed phrase or private key</span><span class="pill pass">Never</span></div></div></div></section>
+</main><footer>GUARDYXIS V12 • Educational research dashboard • No custody, no trade execution, no financial advice.</footer>
 <script>
 const $=id=>document.getElementById(id);
-const money=n=>Number.isFinite(Number(n))?new Intl.NumberFormat("en-US",{style:"currency",currency:"USD",maximumFractionDigits:8}).format(Number(n)):"—";
-const compact=n=>Number.isFinite(Number(n))?new Intl.NumberFormat("en-US",{notation:"compact",maximumFractionDigits:2}).format(Number(n)):"—";
-const valid=s=>/^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(s);
-const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-const row=(a,b)=>'<div class="row"><span class="muted">'+a+'</span><b>'+b+'</b></div>';
-function status(t,c="muted"){$("status").className=c;$("status").textContent=t}
-function pairFor(data){return(Array.isArray(data)?data:[]).filter(p=>p&&p.chainId==="solana"&&p.liquidity&&Number(p.liquidity.usd)>0).sort((a,b)=>Number(b.liquidity.usd||0)-Number(a.liquidity.usd||0))[0]||null}
-function indicator(value,good,medium){return value>=good?"Low concern":value>=medium?"Moderate concern":"Elevated concern"}
-
-let activeMint="", activePair=null, activeFrame="1h";
-const frameConfig={
- "5m":{unit:"minute",aggregate:5,limit:100},
- "15m":{unit:"minute",aggregate:15,limit:100},
- "1h":{unit:"hour",aggregate:1,limit:100},
- "4h":{unit:"hour",aggregate:4,limit:100},
- "1d":{unit:"day",aggregate:1,limit:100}
-};
-function chartStatus(t,c="muted"){$("chartStatus").className="small "+c;$("chartStatus").textContent=t}
-function drawChart(rows){
- const canvas=$("priceChart"), box=canvas.parentElement, dpr=window.devicePixelRatio||1;
- const width=Math.max(320,box.clientWidth),height=Math.max(220,box.clientHeight);
- canvas.width=Math.floor(width*dpr);canvas.height=Math.floor(height*dpr);
- const ctx=canvas.getContext("2d");ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,width,height);
- if(!rows.length){ctx.fillStyle="#94a3b8";ctx.font="14px Arial";ctx.fillText("No chart data available",20,35);return}
- const values=rows.map(r=>Number(r[4])).filter(Number.isFinite);
- const min=Math.min(...values),max=Math.max(...values),span=max-min||Math.max(max*0.01,1e-12);
- const pad={l:14,r:14,t:18,b:24},w=width-pad.l-pad.r,h=height-pad.t-pad.b;
- ctx.strokeStyle="#263449";ctx.lineWidth=1;
- for(let i=0;i<4;i++){const y=pad.t+h*i/3;ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(width-pad.r,y);ctx.stroke()}
- ctx.beginPath();
- values.forEach((v,i)=>{const x=pad.l+w*(i/Math.max(values.length-1,1));const y=pad.t+h*(1-(v-min)/span);if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y)});
- ctx.strokeStyle="#a78bfa";ctx.lineWidth=2.2;ctx.stroke();
- const last=values[values.length-1];
- $("chartRange").textContent=money(min)+" – "+money(max);
-}
-async function loadChart(){
- if(!activePair?.pairAddress){chartStatus("A trading pair is required before loading chart data.","warn");return}
- const cfg=frameConfig[activeFrame];chartStatus("Loading "+activeFrame+" chart…");
- try{
-  const url="https://api.geckoterminal.com/api/v2/networks/solana/pools/"+encodeURIComponent(activePair.pairAddress)+"/ohlcv/"+cfg.unit+"?aggregate="+cfg.aggregate+"&limit="+cfg.limit+"&currency=usd";
-  const r=await fetch(url,{headers:{accept:"application/json"},cache:"no-store"});
-  if(!r.ok)throw Error("Chart API HTTP "+r.status);
-  const data=await r.json();const rows=data?.data?.attributes?.ohlcv_list||[];
-  drawChart(rows.slice().reverse());chartStatus(rows.length?"Chart updated from GeckoTerminal.":"No chart candles returned.",rows.length?"muted":"warn");
- }catch(e){chartStatus("Chart unavailable: "+e.message,"bad");drawChart([])}
-}
-function setFrame(frame){
- activeFrame=frame;
- document.querySelectorAll("#timeframes button").forEach(b=>b.classList.toggle("active",b.dataset.frame===frame));
- loadChart();
-}
-
-function render(m,p){
- activeMint=m;activePair=p;
- const b=p?.baseToken||{},liq=Number(p?.liquidity?.usd||0),vol=Number(p?.volume?.h24||0),buys=Number(p?.txns?.h24?.buys||0),sells=Number(p?.txns?.h24?.sells||0),total=buys+sells;
- $("name").textContent=b.name||"Unknown token";$("symbol").textContent=(b.symbol||"—")+" • "+m;
- $("logo").src=p?.info?.imageUrl||"";
- $("logo").style.visibility=p?.info?.imageUrl?"visible":"hidden";
- $("price").textContent=money(Number(p?.priceUsd||NaN));
- $("change").textContent="24h change: "+(p?.priceChange?.h24!=null?p.priceChange.h24+"%":"—");
- $("liquidity").textContent=money(liq);$("volume").textContent=money(vol);
- $("cap").textContent=money(Number(p?.marketCap||NaN))+" / "+money(Number(p?.fdv||NaN));
- $("liqNote").textContent=liq<10000?"Very limited":liq<50000?"Limited":"Reported liquidity";
- $("badges").innerHTML='<span class="badge">'+esc(p?.dexId||"No DEX")+'</span><span class="badge">'+esc(p?.quoteToken?.symbol||"—")+'</span>';
- $("market").innerHTML=[row("Trading pair",esc((b.symbol||"TOKEN")+"/"+(p?.quoteToken?.symbol||"—"))),row("DEX",esc(p?.dexId||"—")),row("24h buys / sells",esc(buys+" / "+sells)),row("Pair address",esc(p?.pairAddress||"—")),row("Data source","DexScreener")].join("");
- const liqLabel=indicator(liq,50000,10000),volLabel=indicator(vol,10000,1000);
- const pressure=total?buys/sells:"—";
- const pressureLabel=total?(buys>sells*2?"Buy-heavy":sells>buys*2?"Sell-heavy":"Mixed"):"Unavailable";
- $("rLiquidity").textContent=liqLabel;$("rVolume").textContent=volLabel;$("rPressure").textContent=pressureLabel;
- const concerns=(liq<10000?2:liq<50000?1:0)+(vol<1000?1:0)+(sells>buys*3?1:0);
- $("rOverall").textContent=concerns>=3?"Several warning signals":concerns>=1?"Review carefully":"No basic warning triggered";
- $("riskText").textContent=concerns>=3?"Multiple basic market warning signals were detected. Investigate independently before taking any action.":concerns>=1?"One or more basic market indicators deserve additional research.":"This snapshot did not trigger the basic market rules; this does not establish safety.";
- let w=[];
- if(!p)w.push('<p class="warn">No usable Solana trading pair was returned.</p>');
- else{
-  if(liq<10000)w.push('<p class="bad">Reported liquidity is very low; price impact and exit risk may be high.</p>');
-  else if(liq<50000)w.push('<p class="warn">Reported liquidity is limited; use caution with slippage and exits.</p>');
-  if(vol<1000)w.push('<p class="warn">Reported 24-hour volume is very low.</p>');
-  if(sells>buys*3)w.push('<p class="warn">Reported sells substantially exceed buys in the last 24 hours.</p>');
-  if(p?.priceChange?.h24!=null&&Number(p.priceChange.h24)<=-30)w.push('<p class="warn">The reported 24-hour price change is sharply negative.</p>');
- }
- if(!w.length)w.push('<p class="good">No basic market warning was triggered by this snapshot.</p>');
- $("warnings").innerHTML=w.join("")+'<p class="muted">Market data can be delayed, incomplete or manipulated.</p>';
- $("links").innerHTML='<a target="_blank" rel="noopener" href="https://solscan.io/token/'+encodeURIComponent(m)+'">Open on Solscan</a><br><br><a target="_blank" rel="noopener" href="https://dexscreener.com/solana/'+encodeURIComponent(m)+'">Open on DexScreener</a>';
- $("results").classList.remove("hidden");
- loadChart();
-}
-async function scan(m){
- status("Loading live market data…");$("scan").disabled=true;
- try{
-  const r=await fetch("https://api.dexscreener.com/token-pairs/v1/solana/"+encodeURIComponent(m),{headers:{accept:"application/json"},cache:"no-store"});
-  const text=await r.text();if(!r.ok)throw Error("API HTTP "+r.status);
-  let data;try{data=JSON.parse(text)}catch{throw Error("The API returned non-JSON data. Retry in Chrome or later.")}
-  const p=pairFor(data);render(m,p);status(p?"Scan complete. Review the dashboard and warnings.":"No usable market pair was found.",p?"muted":"warn");
- }catch(e){$("results").classList.add("hidden");status("Live scan failed: "+e.message+". The mint may be valid, but the API or network may be unavailable.","bad")}
- finally{$("scan").disabled=false}
-}
-
-document.querySelectorAll("#timeframes button").forEach(b=>b.addEventListener("click",()=>setFrame(b.dataset.frame)));
-$("refreshChart").addEventListener("click",loadChart);
-window.addEventListener("resize",()=>{if(activePair)loadChart()});
-$("form").addEventListener("submit",e=>{e.preventDefault();let m=$("mint").value.trim().replace(/[`'"\\\\]/g,"");$("mint").value=m;if(!valid(m))return status("Input error: use a 32–44 character Solana base58 mint address only.","bad");scan(m)});
-$("sample").onclick=()=>{$("mint").value="So11111111111111111111111111111111111111112";status("Sample inserted. Press Scan token.")};
-$("clear").onclick=()=>{$("mint").value="";$("results").classList.add("hidden");status("Cleared. Paste a mint address to begin.")};
+let current=null,currentPool=null,currentTimeframe='hour',ohlcv=[],reports=JSON.parse(localStorage.getItem('guardyxis_reports')||'[]');
+const money=n=>n==null?'—':Number(n).toLocaleString(undefined,{style:'currency',currency:'USD',maximumFractionDigits:n<1?10:2});
+const compact=n=>n==null?'—':Number(n).toLocaleString(undefined,{notation:'compact',maximumFractionDigits:2});
+function showPage(page){document.querySelectorAll('.page').forEach(x=>x.classList.add('hidden'));$(page).classList.remove('hidden');document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===page));if(page==='trending')loadTrending();if(page==='watchlist')renderWatchlist();if(page==='reports')renderReports();if(page==='dashboard')$('analysis').classList.add('hidden')}
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>showPage(b.dataset.page));
+function status(t){$('scanStatus').textContent=t}
+function bestPair(data){return (data.pairs||[]).sort((a,b)=>(b.liquidity?.usd||0)-(a.liquidity?.usd||0))[0]}
+async function scanMint(mint){status('Scanning public market data…');try{let r=await fetch('https://api.dexscreener.com/latest/dex/tokens/'+encodeURIComponent(mint));if(!r.ok)throw Error('Market API returned '+r.status);let data=await r.json();let p=bestPair(data);if(!p)throw Error('No listed pair found for this mint.');current={mint,pair:p};currentPool=p.pairAddress;renderToken();status('Scan complete.');showPage('scanner');$('analysis').classList.remove('hidden');$('analysis').scrollIntoView({behavior:'smooth'});loadChart(currentTimeframe)}catch(e){status='';$('scanStatus').textContent='Scan error: '+e.message}}
+async function scan(){let m=$('mint').value.trim();if(!m)return status('Paste a mint address first.');await scanMint(m)}
+function renderToken(){let p=current.pair, b=p.baseToken||{};$('tokenTitle').textContent=(b.name||'Unknown')+' ('+(b.symbol||'TOKEN')+')';$('mName').textContent=b.name||'Unknown';$('mSymbol').textContent=b.symbol||'—';$('mPrice').textContent=money(p.priceUsd);$('mLiquidity').textContent=money(p.liquidity?.usd);$('mVolume').textContent=money(p.volume?.h24);$('mChange').textContent=(p.priceChange?.h24??'—')+'% 24h';$('updated').textContent='Updated '+new Date().toLocaleTimeString();$('details').innerHTML='<p><b>Chain:</b> '+p.chainId+'</p><p><b>DEX:</b> '+(p.dexId||'—')+'</p><p><b>Pair:</b> '+p.pairAddress+'</p><p><b>FDV:</b> '+money(p.fdv)+'</p><p><b>Market cap:</b> '+money(p.marketCap)+'</p><p><b>Buys/Sells 24h:</b> '+(p.txns?.h24?.buys??'—')+' / '+(p.txns?.h24?.sells??'—')+'</p><p><b>Source:</b> <a href="'+(p.url||'#')+'" target="_blank" rel="noreferrer">DexScreener</a></p>';renderRisks();saveReport()}
+function renderRisks(){let p=current.pair, liq=p.liquidity?.usd||0,vol=p.volume?.h24||0,buys=p.txns?.h24?.buys||0,sells=p.txns?.h24?.sells||0;let items=[['Liquidity depth',liq>=100000?'Reported liquidity is above $100k':liq>=10000?'Reported liquidity is limited':'Very low reported liquidity',liq>=100000?'pass':liq>=10000?'warn':'fail'],['Volume/liquidity',liq&&vol/liq>20?'High turnover; investigate wash trading or volatility':liq?'Ratio appears moderate':'Not enough data',liq&&vol/liq>20?'warn':'pass'],['Buy/sell activity',buys+sells?('Buys '+buys+' • Sells '+sells):'No transaction data',buys>=sells?'pass':'warn'],['Pair age',p.pairCreatedAt?(new Date(p.pairCreatedAt).toLocaleDateString()):'Unavailable','warn']];$('riskList').innerHTML=items.map(x=>'<div class="risk"><span><b>'+x[0]+'</b><br><span class="small">'+x[1]+'</span></span><span class="pill '+x[2]+'">'+x[2].toUpperCase()+'</span></div>').join('')}
+async function loadTrending(){let box=$('trendCards');box.innerHTML='<div class="empty">Loading…</div>';try{let r=await fetch('https://api.geckoterminal.com/api/v2/networks/solana/trending_pools');if(!r.ok)throw Error('HTTP '+r.status);let d=await r.json();let arr=(d.data||[]).slice(0,12);box.innerHTML=arr.map(x=>{let a=x.attributes||{},id=x.id||'',addr=id.split('_').pop();return '<div class="panel token-card" onclick="poolFromTrend(\''+addr+'\')"><span class="badge">TRENDING</span><h3>'+ (a.name||'Unknown pool')+'</h3><p>Price: '+money(a.base_token_price_usd)+'</p><p>Liquidity: '+money(a.reserve_in_usd)+'</p><p>24h volume: '+money(a.volume_usd?.h24)+'</p><p class="small">'+addr+'</p></div>'}).join('')||'<div class="empty">No trending pools returned.</div>'}catch(e){box.innerHTML='<div class="empty">Could not load trending data: '+e.message+'</div>'}}
+async function poolFromTrend(addr){$('mint').value=addr;showPage('scanner');await scanMint(addr)}
+function loadDemo(){$('mint').value='So11111111111111111111111111111111111111112';scan()}
+function clearScan(){current=null;currentPool=null;$('analysis').classList.add('hidden');$('scanStatus').textContent='Cleared.'}
+async function loadChart(tf){if(!currentPool)return;$('chartStatus').textContent='Loading real OHLCV candles…';currentTimeframe=tf;try{let url='https://api.geckoterminal.com/api/v2/networks/solana/pools/'+currentPool+'/ohlcv/'+tf+'?aggregate='+(tf==='minute'?1:tf==='hour'?1:1)+'&limit=100';let r=await fetch(url);if(!r.ok)throw Error('HTTP '+r.status);let d=await r.json();ohlcv=d.data?.attributes?.ohlcv_list||[];drawCandles(ohlcv);detectPatterns(ohlcv);$('chartStatus').textContent='Loaded '+ohlcv.length+' candles from GeckoTerminal.'}catch(e){$('chartStatus').textContent='Candle data unavailable: '+e.message;drawCandles([]);detectPatterns([])}}
+function drawCandles(rows){let c=$('chart'),ctx=c.getContext('2d'),w=c.width,h=c.height;ctx.clearRect(0,0,w,h);ctx.strokeStyle='#263552';ctx.fillStyle='#91a4c4';ctx.font='12px system-ui';for(let i=1;i<5;i++){let y=i*h/5;ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke()}if(!rows.length){ctx.fillText('No OHLCV data',20,35);return}let vals=rows.slice().reverse(),high=Math.max(...vals.map(v=>+v[2])),low=Math.min(...vals.map(v=>+v[3])),range=high-low||1,step=w/vals.length;const y=v=>h-25-((v-low)/range)*(h-45);vals.forEach((v,i)=>{let [time,open,highV,lowV,close]=v.map(Number),x=i*step+step/2,up=close>=open;ctx.strokeStyle=up?'#53e6a1':'#ff7088';ctx.fillStyle=ctx.strokeStyle;ctx.beginPath();ctx.moveTo(x,y(highV));ctx.lineTo(x,y(lowV));ctx.stroke();let top=y(Math.max(open,close)),bot=y(Math.min(open,close));ctx.fillRect(x-step*.3,top,Math.max(2,step*.6),Math.max(1,bot-top))})}
+function detectPatterns(rows){let out=$('patterns');if(rows.length<3){out.innerHTML='<div class="empty">Not enough candles for pattern notes.</div>';return}let a=rows.slice().reverse(),last=a[a.length-1].map(Number),prev=a[a.length-2].map(Number);let [t,o,hi,lo,cl]=last,[pt,po,phi,plo,pcl]=prev;let body=Math.abs(cl-o),range=hi-lo||1,upper=hi-Math.max(o,cl),lower=Math.min(o,cl)-lo;let notes=[];if(body/range<.12)notes.push(['Possible doji','Small body relative to the candle range; context is required.','warn']);if(lower>body*2&&upper<body)notes.push(['Possible hammer','Long lower wick; confirmation is not provided by this single candle.','warn']);if(cl>o&&pcl<po&&o<=pcl&&cl>=po)notes.push(['Bullish engulfing','Current body covers the previous bearish body.','warn']);if(cl<o&&pcl>po&&o>=pcl&&cl<=po)notes.push(['Bearish engulfing','Current body covers the previous bullish body.','warn']);if(!notes.length)notes.push(['No simple pattern flagged','The latest candle did not match the basic heuristic rules.','pass']);out.innerHTML=notes.map(x=>'<div class="risk"><span><b>'+x[0]+'</b><br><span class="small">'+x[1]+'</span></span><span class="pill '+x[2]+'">'+x[2].toUpperCase()+'</span></div>').join('')}
+function getWatch(){return JSON.parse(localStorage.getItem('guardyxis_watch')||'[]')}
+function toggleWatch(){if(!current)return;let w=getWatch();let idx=w.findIndex(x=>x.mint===current.mint);if(idx>=0)w.splice(idx,1);else w.push({mint:current.mint,name:current.pair.baseToken?.name||'Token',symbol:current.pair.baseToken?.symbol||''});localStorage.setItem('guardyxis_watch',JSON.stringify(w));renderWatchlist()}
+function renderWatchlist(){let w=getWatch();$('watchCards').innerHTML=w.length?w.map(x=>'<div class="panel token-card" onclick="scanMint(\''+x.mint+'\')"><span class="badge">WATCHED</span><h3>'+x.name+' ('+x.symbol+')</h3><p>'+x.mint+'</p><button onclick="event.stopPropagation();removeWatch(\''+x.mint+'\')">Remove</button></div>').join(''):'<div class="empty">No saved tokens yet. Scan a token and add it to your watchlist.</div>'}
+function removeWatch(m){let w=getWatch().filter(x=>x.mint!==m);localStorage.setItem('guardyxis_watch',JSON.stringify(w));renderWatchlist()}
+function saveReport(){if(!current)return;let r={mint:current.mint,name:current.pair.baseToken?.name||'Unknown',symbol:current.pair.baseToken?.symbol||'',price:current.pair.priceUsd,liquidity:current.pair.liquidity?.usd,volume:current.pair.volume?.h24,time:new Date().toISOString()};reports=[r,...reports.filter(x=>x.mint!==r.mint)].slice(0,20);localStorage.setItem('guardyxis_reports',JSON.stringify(reports))}
+function renderReports(){let box=$('reportList');box.innerHTML=reports.length?reports.map((r,i)=>'<div class="panel" style="margin-bottom:10px"><b>'+r.name+' ('+r.symbol+')</b><p class="small">'+new Date(r.time).toLocaleString()+'<br>Liquidity: '+money(r.liquidity)+' • Volume: '+money(r.volume)+'<br>'+r.mint+'</p><button onclick="scanMint(\''+r.mint+'\')">Open</button></div>').join(''):'<div class="empty">No reports saved yet.</div>'}
+function receiptText(){let p=current?.pair;if(!p)return '';return 'GUARDYXIS V12 RESEARCH RECEIPT\\nToken: '+(p.baseToken?.name||'Unknown')+' ('+(p.baseToken?.symbol||'')+')\\nMint: '+current.mint+'\\nPrice: '+money(p.priceUsd)+'\\nLiquidity: '+money(p.liquidity?.usd)+'\\n24h Volume: '+money(p.volume?.h24)+'\\nDEX: '+p.dexId+'\\nPair: '+p.pairAddress+'\\nGenerated: '+new Date().toISOString()+'\\n\\nEducational research only. Not financial advice.'}
+async function shareReceipt(){let text=receiptText();if(!text)return;if(navigator.share){try{await navigator.share({title:'GUARDYXIS Research Receipt',text})}catch(e){}}else{await navigator.clipboard?.writeText(text);alert('Receipt copied where supported.')} }
+function printReceipt(){let text=receiptText();if(!text)return;let win=window.open('','_blank');win.document.write('<pre style="font:16px monospace;white-space:pre-wrap">'+text.replace(/</g,'&lt;')+'</pre>');win.document.close();win.print()}
+showPage('dashboard');
 </script>
 </body>
 </html>
