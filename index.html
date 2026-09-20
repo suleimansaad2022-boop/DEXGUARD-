@@ -11,6 +11,71 @@
 @media(max-width:700px){.app{display:block}.side{display:none}.top{height:auto;flex-wrap:wrap;padding:10px}.search{flex-basis:100%;order:2;max-width:none}.content{padding:10px}.grid{display:flex;flex-direction:column}.card{padding:12px}.token{grid-template-columns:55px minmax(0,1fr) auto;gap:8px}.avatar{width:50px;height:50px}.mc{grid-column:auto;text-align:right}.trend{grid-column:auto;grid-row:auto;font-size:18px}.token h3{font-size:14px}.addr{font-size:10px}.mc strong{font-size:12px}.head h2{font-size:18px}.receipt-head h3{font-size:18px}.riskgrid{grid-template-columns:1fr}.actions{grid-template-columns:1fr 1fr}}
 @media(max-width:550px){.nav button span{display:none}.nav button{justify-content:center}.receipt-actions .btn{flex:1}
 .token{grid-template-columns:52px minmax(0,1fr) 18px}.avatar{width:50px;height:50px}.mc{grid-column:2;text-align:left}.trend{grid-column:3;grid-row:1}.riskgrid{grid-template-columns:1fr}.top{flex-wrap:wrap;height:auto}.search{flex-basis:100%;order:2}.card{padding:12px}}
+
+/* GUARDYXIS responsive correction */
+html,body{width:100%;max-width:100%;overflow-x:hidden}
+*,*::before,*::after{box-sizing:border-box}
+img,svg,canvas{max-width:100%}
+.main{min-width:0;width:100%;overflow-x:hidden}
+.content{min-width:0}
+.nav button{display:flex;align-items:center;gap:12px}
+.nav button:before{content:none!important}
+@media (max-width:1100px){
+  .app{grid-template-columns:76px minmax(0,1fr)}
+  .side{padding:14px 7px}
+  .logo{font-size:0;text-align:center;padding:8px 0 24px}
+  .logo:before{content:'🛡️';font-size:25px}
+  .nav button{justify-content:center;text-align:center;padding:13px 4px;font-size:20px;gap:0}
+  .nav button span{display:none}
+  .mascot,.network{display:none}
+  .top{padding:12px 14px}
+  .content{padding:14px}
+  .grid{grid-template-columns:minmax(0,1fr)}
+  .receipt{width:100%}
+}
+@media (max-width:700px){
+  .app{display:grid;grid-template-columns:64px minmax(0,1fr);min-height:100vh}
+  .side{display:flex;padding:10px 5px;position:relative}
+  .logo{padding:6px 0 18px}
+  .logo:before{font-size:22px}
+  .nav{gap:7px}
+  .nav button{min-height:46px;border-radius:10px;font-size:19px}
+  .top{height:auto;min-height:70px;flex-wrap:wrap;gap:9px;padding:10px}
+  .search{order:3;flex-basis:100%;max-width:none;width:100%}
+  .content{padding:10px}
+  .grid{display:flex;flex-direction:column;gap:12px}
+  .card{padding:12px;border-radius:14px}
+  .head{align-items:flex-start}
+  .head h2{font-size:19px}
+  .head p{font-size:11px;line-height:1.4}
+  .token{grid-template-columns:54px minmax(0,1fr) auto;gap:8px;padding:10px}
+  .avatar{width:50px;height:50px}
+  .token h3{font-size:14px;overflow-wrap:anywhere}
+  .addr{font-size:10px;overflow-wrap:anywhere}
+  .mc{text-align:right;min-width:0}
+  .mc small{font-size:9px}
+  .mc strong{font-size:12px;overflow-wrap:anywhere}
+  .trend{font-size:16px}
+  .receipt-head h3{font-size:18px}
+  .stats{gap:8px;padding:10px}
+  .stats strong{font-size:15px}
+  .riskgrid{grid-template-columns:1fr}
+  .actions{grid-template-columns:1fr 1fr}
+  .actions .btn{font-size:11px;padding:9px 6px}
+  .footer{padding:18px 8px;font-size:9px}
+}
+@media (max-width:420px){
+  .app{grid-template-columns:56px minmax(0,1fr)}
+  .side{padding:8px 3px}
+  .nav button{min-height:42px;font-size:17px}
+  .content{padding:7px}
+  .token{grid-template-columns:46px minmax(0,1fr);gap:7px}
+  .avatar{width:44px;height:44px}
+  .mc{grid-column:2;text-align:left}
+  .trend{grid-column:2;grid-row:auto}
+  .actions{grid-template-columns:1fr}
+  .actions button:last-child{grid-column:auto}
+}
 </style></head>
 <body><div class="app">
 <aside class="side"><div class="logo">🛡 GUARDY<span style="color:var(--green)">XIS</span> <b>V12</b></div>
