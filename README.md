@@ -1,13 +1,11 @@
-# GUARDYXIS V12 Polished
+# GUARDYXIS V12 Responsive Fixed
 
-Reference-style GUARDYXIS dashboard with:
-- Functional navigation icons and Settings
-- Solana token search by name, symbol, or mint address
-- Clickable trending tokens and token receipt
-- Auto-refreshing trending feed every 30 seconds
-- Save Receipt as a PNG image card
-- Share receipt text through supported device sharing
-- Responsive desktop and mobile layout
-- OHLCV chart section and heuristic risk display
+This build fixes the mobile/normal-mode layout:
+- Adds the viewport meta tag for Android browsers
+- Removes duplicate diamond pseudo-icons
+- Keeps the sidebar visible as a compact icon rail
+- Prevents horizontal clipping and hidden content
+- Makes token cards, receipt, buttons, and search fit desktop and mobile widths
+- Preserves token search, scanner, trending refresh, receipt sharing, and PNG card export
 
-Deploy `index.html` to Netlify or GitHub Pages. Public APIs may change and risk indicators are not a security audit.
+Replace the existing index.html with this version and commit it.
