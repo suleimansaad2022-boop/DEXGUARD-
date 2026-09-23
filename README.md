@@ -1,16 +1,36 @@
-# GUARDYXIS V12 MASTER
+# GUARDYXIS Security Intelligence Add-on
 
-A safer single-file Solana research dashboard.
+This is an **add-on**, not a replacement for your current GUARDYXIS design.
 
-## Included
-- Visible named navigation on desktop and mobile
-- Live GeckoTerminal trending pools and search
-- Solana token scanner by name, symbol, or mint
-- Real OHLCV candlestick chart using GeckoTerminal
-- Observable-data risk checklist with unknown states
-- Watchlist, local alerts, history, and printable receipt
-- Theme, refresh, reduced-motion, export/reset settings
-- Timeout handling and no fabricated market data
+## 1. Advanced holder intelligence
+Uses RugCheck's Solana token report for top holders, owner addresses, supply percentages, creator data and insider-network information. It calculates top-1/top-5/top-10/top-20 concentration and exposes the raw top-holder table.
 
-## Important
-This is a frontend research prototype. Public APIs are rate-limited. Google authentication, indexed holder analytics, server-side alerts, and production security checks require a backend/provider integration.
+## 2. Verified security API layers
+- RugCheck Solana token report
+- GoPlus Solana Token Security API (second layer when configured)
+
+RugCheck: `GET https://api.rugcheck.xyz/v1/tokens/{mint}/report`
+GoPlus: `GET https://api.gopluslabs.io/api/v1/solana/token_security?contract_addresses={mint}`
+
+## Setup
+1. Copy `.env.example` to `.env`.
+2. Add provider credentials if required.
+3. `npm install`
+4. `npm start`
+5. Backend endpoint: `/api/intelligence/<SOLANA_MINT>`
+
+## Frontend
+Add:
+`<link rel="stylesheet" href="/guardyxis-security.css">`
+`<script src="/guardyxis-security.js"></script>`
+
+Create a result container:
+`<div id="security-panel"></div>`
+
+After the existing scanner obtains a mint:
+`const data = await GUARDYXIS_SECURITY.scan(mint);`
+`GUARDYXIS_SECURITY.render(data, document.querySelector("#security-panel"));`
+
+Provider secrets stay on the server. Never put API keys, private keys or seed phrases in frontend code.
+
+Security scores are automated signals, not proof that a token is safe or unsafe. Missing data remains Unknown.
